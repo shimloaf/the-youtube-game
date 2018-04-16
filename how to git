@@ -1,0 +1,19 @@
+how to git commit:
+
+git add -A
+
+git commit -m "Version Name"
+
+git push origin master
+
+how to get latest version on THIS workspace:
+
+git pull
+
+git merge master // or another branch name
+
+but sometimtes you'll get merging errors in which case
+
+git diff <source_branch> <target_branch>
+
+git add <filename>
