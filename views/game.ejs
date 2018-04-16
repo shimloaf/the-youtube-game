@@ -1,0 +1,273 @@
+<% include partials/header %>
+
+		
+<span class="STOPLOOKINGATMYCODE" id="<%=currentUser._id%>|<%=games._id%>"></span>
+
+<%var currentRoomUser;%>        
+<%var usersLocked = 0;%>
+<%games.roomUsers.forEach(function(user){ %>
+    <%if(user.phase === 1){usersLocked++;}%>
+    <%if(user.id + "" === currentUser._id + ""){currentRoomUser=user;}%>
+<% });%>
+
+<%if(games.phase === "results"){%>
+<% var winner = 0, score = parseInt(games.score[0]);%>
+<% for(var n = 0; n<games.score.length; n++){ %>
+<%      if(parseInt(games.score[n]) > score){ %>
+<%                score = games.score[n]; %>
+<%                winner = n; %>
+<%        } %>
+<%    }  %>
+<% }%>
+
+<% winner = games.roomUsers[winner];%>
+
+<%if(games.phase === "results"){ %>
+<h3 class="centeredHeader" style="color:red; margin:0; background:white; border:35px solid white;">Congrats, <%=winner.username%> !</h3> 
+<% } %>
+
+<div id="navbuttons">
+    <%if(games.phase === "init"){%>
+  <a class="nav-button-1 btn btn-danger btn-lg" style="width:90%;"><%=usersLocked%>/<%=games.playerCount%></a>
+  <% } else if(games.phase === "vote" && currentRoomUser.phase=== 1){%>
+      <a class="nav-button-1 btn btn-danger btn-lg" style="width:90%;" href="/game/<%=games.id%>/vote">Voting Time!</a>
+  <% } else if(games.phase === "results"){%>
+      <a class="nav-button-1 btn btn-danger btn-lg" style="width:90%;" href="/rooms/停<%=games._id%>">View this Game's Archive!</a>
+  <% } else if(games.phase === "vote" && currentRoomUser.phase===2){%>
+      <a class="nav-button-1 btn btn-danger btn-lg" style="width:90%;">Players are Voting...</a>
+  <% }%>
+  <a class="nav-button-2-1 btn btn-danger btn-lg" style="display:block;" href="/game/menu">Exit!</a>
+</div>
+
+
+
+<div class="usersDiv">
+<% games.roomUsers.forEach(function(user){%>
+
+    <%if(games.phase === "results" && winner.id + "" === user.id + ""){%>
+        <div class="userDivG">
+    <% } else if(games.phase === "results" && winner.id + "" !== user.id + ""){%>
+        <div class="userDivR">
+    <% } else{%>
+        <div class="userDiv">
+    <% }%>
+    <h1 style="font-size: 5vw; overflow:hidden;"><%=user.username%></h1>
+    
+    <% if(user.off !== undefined && user.id + "" === currentUser._id + "" && user.phase === 0 && user.suggestion !== undefined){ %>
+        <a class="btn btn-danger btn-lg submit-button-2" id="LockerBOYS">Lock In!</a>
+    <% }%>
+    
+    <h3 class="centeredHeader">Official Video:</h3>
+    
+    <% if(user.off !== undefined){%>
+    
+    <iframe type="text/html" class="gameRoomIframe" src="<%=user.off%>" frameborder="0" allowfullscreen align="left"></iframe>
+    <%if(user.id + "" === currentUser._id + "" && user.phase === 0){%>
+    <i style="font-size: 1vw;" id="Official" class="deleter2 fa fa-trash-o" aria-hidden="true"></i>
+    <% } %>
+    <% }else if(user.id + "" === currentUser._id + ""){%>
+        <form method="POST" action="/game/:id">
+            <div class="form-group">
+                <input id="roomidinput" class="form-control" type="text" name="link" placeholder="Video URL">
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="hidden" name="userId" value="<%=currentUser._id%>">
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="hidden" name="gameId" value=<%=games._id%>>
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="hidden" name="offUnOff" value="Official">
+            </div>
+            <div class="form-group">
+                <input id="roomidinput" type="submit" text="Submit" class="submit-button btn btn-danger btn-block">
+            </div>
+        </form>
+        
+    <% } else {%>
+        <img id = "blank" src="/blank.png">
+    <% }%>
+    <% if(games.phase!=="results"){%>
+    <h3 class="centeredHeader">Unofficial Video:</h3>
+    <% }%>
+    <% if(user.unoff !== undefined){%>
+    
+    <iframe type="text/html" class="gameRoomIframe" src="<%=user.unoff%>" frameborder="0" allowfullscreen align="left"></iframe>
+    <%if(user.id + "" === currentUser._id + "" && user.phase === 0){%>
+    <i style="font-size: 1vw;" id="Unofficial" class="deleter2 fa fa-trash-o" aria-hidden="true"></i>
+    <% }%>
+    <% }else if(user.id + "" === currentUser._id + "" && user.phase === 0){%>
+        <form method="POST" action="/game/:id">
+            <div class="form-group">
+                <input id="roomidinput" class="form-control" type="text" name="link" placeholder="Video URL">
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="hidden" name="userId" value="<%=currentUser._id%>">
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="hidden" name="gameId" value=<%=games._id%>>
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="hidden" name="offUnOff" value="Unofficial">
+            </div>
+            <div class="form-group">
+                <input id="roomidinput" type="submit" text="Submit" class="submit-button btn btn-danger btn-block">
+            </div>
+        </form>
+        
+    <% } else if(games.phase!=="results"){%>
+        <img id = "blank" src="/blank.png">
+    <% }%>
+
+    
+        <%if(user.suggestion !== undefined){%>
+        
+        <%var concatSugg = "https:/\/www.youtube.com/results?search_query=" + user.suggestion %>
+        
+        <h3 style="font-size: 3vw;">
+        <a style="color:black; text-decoration: none;" target="_blank" href="<%=concatSugg%>"><%=user.suggestion%></a>
+        <%if(user.id + "" === currentUser._id + "" && user.phase === 0){%>
+        <i style="font-size: 1vw;" id="<%=currentUser._id%>|<%=games._id%>" class="deleter fa fa-trash-o" aria-hidden="true"></i>
+        <% }%>
+        </h3>
+
+        
+        <% } else if(user.id + "" === currentUser._id + ""){%>
+        
+
+            <button id="suggSimpB" class="twolittlebuttons">Simple</button>
+
+            <button id="suggCompB" class="twolittlebuttons">Complex</button>
+            
+            <form method="POST" action="/game/:id">
+            <div class="form-group">
+                <input class="form-control" type="hidden" name="userId" value="<%=currentUser._id%>">
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="hidden" name="gameId" value=<%=games._id%>>
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="hidden" name="offUnOff" value="suggCustom">
+            </div>
+            <div class="form-group">
+                <input style="margin-top:5%; text-align:center;" id="roomidinput" type="text" name="customPrompt" placeholder="Custom Prompt">
+            </div>
+            </form>
+    <% } %>
+    
+    
+    </div>
+    
+    
+
+<% }); %>
+
+
+
+</div>
+
+          
+<script>
+
+
+
+$("#suggSimpB").click(function() {
+    var combo = "";
+    var noun = "";
+    var adjective = "";
+    $.get('/simpleNouns.txt', function(data) {
+        var line = Math.round(Math.random() * 4554);
+        for (var n = 0; n < line; n++) {
+            data = data.substring(0, data.lastIndexOf(","))
+        }
+        noun = data.substring(data.lastIndexOf(",") + 1);
+
+        $.get('/simpleAdj.txt', function(data2) {
+            var line2 = Math.round(Math.random() * 1466);
+            for (var g = 0; g < line2; g++) {
+                data2 = data2.substring(0, data2.lastIndexOf(","))
+            }
+            adjective = data2.substring(data2.lastIndexOf(",") + 1);
+
+            combo = adjective.substring(1) + " " + noun.substring(1);
+            var compStr = $(".STOPLOOKINGATMYCODE").attr("id");
+                compStr = compStr + "";
+            var userId = compStr.substring(0, compStr.indexOf("|"));
+            var gameId = compStr.substring(compStr.indexOf("|") + 1);
+            $.post("/game/:id", { gameId: gameId, userId: userId, suggestion: combo, offUnOff: "suggSimple" }, function() {
+                location.reload();
+            });
+        }, 'text');
+    }, 'text');
+});
+
+$("#suggCompB").click(function() {
+    var combo = "";
+    var noun = "";
+    var adjective = "";
+    $.get('/nouns.txt', function(data) {
+        var line = Math.round(Math.random() * 90946);
+        for (var n = 0; n < line; n++) {
+            data = data.substring(0, data.lastIndexOf(","))
+        }
+        noun = data.substring(data.lastIndexOf(",") + 1);
+
+        $.get('/adjectives.txt', function(data2) {
+            var line2 = Math.round(Math.random() * 28479);
+            for (var g = 0; g < line2; g++) {
+                data2 = data2.substring(0, data2.lastIndexOf(","))
+            }
+            adjective = data2.substring(data2.lastIndexOf(",") + 1);
+
+            combo = adjective.substring(1) + " " + noun.substring(1);
+            var compStr = $(".STOPLOOKINGATMYCODE").attr("id");
+                compStr = compStr + "";
+            var userId = compStr.substring(0, compStr.indexOf("|"));
+            var gameId = compStr.substring(compStr.indexOf("|") + 1);
+            $.post("/game/:id", { gameId: gameId, userId: userId, suggestion: combo, offUnOff: "suggComplex" }, function() {
+                location.reload();
+            });
+        }, 'text');
+    }, 'text');
+});
+
+
+$(".deleter").click(function() {
+    var compStr = $(this).attr("id");
+    compStr = compStr + "";
+    var userId = compStr.substring(0, compStr.indexOf("|"));
+    var gameId = compStr.substring(compStr.indexOf("|") + 1);
+    $.post("/game/:id", { gameId: gameId, userId: userId, customPrompt: undefined, offUnOff: "suggCustom" }, function() {
+        location.reload();
+    });
+});
+
+$(".deleter2").click(function() {
+    var offUnOff = $(this).attr("id");
+    var compStr = $(".STOPLOOKINGATMYCODE").attr("id");
+        compStr = compStr + "";
+    var userId = compStr.substring(0, compStr.indexOf("|"));
+    var gameId = compStr.substring(compStr.indexOf("|") + 1);
+    $.post("/game/:id", { gameId: gameId, userId: userId, link: "HAHA MEMES LOL", offUnOff: offUnOff + "U" }, function() {
+        location.reload();
+    });
+});
+
+$("#LockerBOYS").click(function() {
+    var compStr = $(".STOPLOOKINGATMYCODE").attr("id");
+        compStr = compStr + "";
+    var userId = compStr.substring(0, compStr.indexOf("|"));
+    var gameId = compStr.substring(compStr.indexOf("|") + 1);
+    $.post("/game/:id", {userId:userId, gameId:gameId, 1:true, offUnOff:"lockerBOYS"}, function() {
+        location.reload();
+    });
+});
+
+</script>
+
+
+
+
+
+
+<% include partials/footer %>

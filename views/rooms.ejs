@@ -1,0 +1,41 @@
+<% include partials/header %>
+
+		<h3 class="centeredHeader" style="color:red; margin:0; background:white; border:5px solid white;"><%=message%></h3>
+<div class="container">
+    <div class="row">
+            <div style="width: 100%; margin: 25px auto;">
+                <h1 style="text-align: center;">Join a room!</h1>
+                <form method="POST" action="/rooms">
+                    <div class="form-group">
+                        <input id="roomidinput" class="form-control" type="text" name="name" placeholder="Room Id">
+                    </div>
+                    <div class="form-group">
+                        <input id="roomidinput" type="submit" class="submit-button btn btn-lg btn-danger btn-block">
+                    </div>
+                </form>
+            </div>
+
+    </div>
+
+</div>
+
+<h1 class="centeredHeader">All Public Rooms:</h1>
+<% var ids = []%>
+<% videos.forEach(function(video){%> 
+
+<!--\/ add all room ids to the array-->
+<% if(ids.indexOf(video.roomid) === -1 && video.roomid !== "archive" && video.roomid.substring(0,1) !== "停"){ %>
+<%ids.push(video.roomid); }%>
+<% }); %>
+<!--All ids are in ids array now-->
+
+<% var idList = "" %>
+<div class="title-grid-container" style="display:grid;">
+<%for(var n = 0; n<ids.length; n++){%>
+
+<a class="title-grid-item" style="display:grid;" href="/rooms/<%=ids[n]%>"><%=ids[n]%></a>
+<% } %>
+</div>
+
+
+<% include partials/footer %>

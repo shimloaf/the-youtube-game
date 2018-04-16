@@ -1,0 +1,384 @@
+body{
+	background-color: #ff0000;
+	height:100%;
+	border-top: 5px solid black;
+	width: 100%;
+	overflow-x: hidden;
+}
+
+#logoI
+{
+	display: block;
+	margin: 0 auto;
+	height: 15em;
+	width:75em;
+}
+
+#instruct{
+	border: 2px solid black; 
+	display: block; 
+	margin: auto; 
+	transition: transform 2s;
+	overflow: hidden;
+}
+
+.logo{
+	background-color: #ffffff;
+}
+
+#navbuttons{
+	width: 100%;
+	height: 5%;
+	margin-bottom: 5%;
+}
+
+.nav-button{
+	background-color: #FFFFFF;
+	color:red;
+	font-family: "Saira Extra Condensed", sans-serif;
+	font-size: 4vw;
+	border-radius: 0px;
+	font-weight: bold;
+	width: 33.333%;
+	text-align: center;
+	float: left;
+	border: none;
+	border-bottom: 5px solid black;
+	border-top: 5px solid black;
+}
+
+.nav-button-1{
+	background-color: #FFFFFF;
+	color:red;
+	font-family: "Saira Extra Condensed", sans-serif;
+	font-size: 5vw;
+	border-radius: 0px;
+	font-weight: bold;
+	width: 100%;
+	text-align: center;
+	float: left;
+	border: none;
+	border-bottom: 5px solid black;
+	border-top: 5px solid black;
+	transition: width 1s;
+}
+
+.nav-button-2-1{
+	background-color: #FFFFFF;
+	color:red;
+	font-family: "Saira Extra Condensed", sans-serif;
+	font-size: 5vw;
+	border-radius: 0px;
+	font-weight: bold;
+	width: 10%;
+	text-align: center;
+	float: left;
+	border: none;
+	border-bottom: 5px solid black;
+	border-top: 5px solid black;
+	display: none;
+}
+
+
+.submit{
+	margin-top: 5%;
+	background: white;
+	border: 5px solid black;
+	width: 55%;
+	float: left;
+	margin-right: 5%;
+}
+
+.videos{
+		background: white;
+		border: 5px solid black;
+		margin-top: 10%;
+		width: 90%;
+}
+
+.videos2{
+		background: white;
+		border: 5px solid black;
+		margin-top: 5%;
+		width: 50%;
+		float:left;
+		margin-bottom: 5%;
+		height: auto;
+}
+
+.stuff{
+	width:50%;
+	float:right;
+}
+
+.info{
+	margin-top: 5%;
+	background: white;
+	border: 5px solid black;
+	width: 35%;
+	margin-right: 5%;
+	float: left;
+}
+
+html{
+	height:100%;
+	width: 100%;
+}
+
+
+h1{
+	font-family: 'Saira Extra Condensed', sans-serif;
+	color: #000000;
+	font-size: 100px;
+}
+
+h2{
+	font-family: 'Saira Extra Condensed', sans-serif;
+	color: #000000;
+	font-size: 4vw;
+	font-weight: bold;
+	margin: 5% 10%;
+}
+
+
+h3{
+	font-family: 'Saira Extra Condensed', sans-serif;
+	color: #000000;
+	font-size: 3vw;
+	width: 100%;
+}
+
+
+h4{
+	font-family: 'Saira Extra Condensed', sans-serif;
+	color: #000000;
+	font-size: 2vw;
+	width: 100%;
+}
+
+.latest{
+	font-family: 'Saira Extra Condensed', sans-serif;
+	color: #000000;
+	font-size: 35px;
+	width: 100%;
+	text-align:center;
+	margin-top: 10%;
+}
+
+#roomidinput{
+	width: 50%;
+	margin: 0 auto;
+}
+
+.submit-button{
+	background-color: #FFFFFF;
+	color:red;
+	font-family: "Saira Extra Condensed", sans-serif;
+	font-size: 5vw;
+	border-radius: 0px;
+	font-weight: bold;
+	text-align: center;
+	margin: 0 auto;
+	border: 5px solid black;
+}
+
+.submit-button-2{
+	background-color: #FFFFFF;
+	color:red;
+	font-family: "Saira Extra Condensed", sans-serif;
+	font-size: 2vw;
+	border-radius: 0px;
+	font-weight: bold;
+	width: 20%;
+	text-align: center;
+	margin: 0 auto;
+	border: 5px solid black;
+}
+
+iframe{ 
+    margin: 2.5%;
+    width: 95%;
+}
+
+#iframediv{
+	float:left;
+	width: 25%;
+}
+
+#iframediv2{
+	float:left;
+	width: 50%;
+}
+.caption{
+	width: 100%;
+	text-align: center;
+}
+
+.centeredHeader{
+	text-align: center;
+	width: 100%;
+	font-weight: 900;
+	
+}
+
+.leftHeader{
+	text-align: left;
+	font-weight: 600;
+	margin-left: 1%;
+}
+
+.archiveRoomGroup{
+	width: 100%;
+	display: block;
+	float: none;
+}
+
+ul{
+	list-style:none;
+}
+
+.roomLabel{
+	float:left;
+	font-size: 4vw;
+	font-weight: bolder;
+	margin-left: 5%;
+	display: inline-block;
+	width: 15%;
+	margin-bottom: 2%;
+	margin-top: 2%;
+}
+.roomPass{
+	float:left;
+	margin-left: 10%;
+	margin-top: 5%;
+	width: 35%;
+	height: 150%;
+}
+
+#gSubmitDiv{
+	background: white;
+	border: 5px solid black;
+	overflow:hidden;
+	margin-left: 10%;
+	margin-right: 10%;
+}
+
+.roomButtonSubmit{
+	float:right;
+	font-size: 200%;
+	width: 10%;
+	margin-right: 5%;
+	margin-top: 2%;
+}
+
+.rotate3{
+	transform: rotate3D(0,1,0,720deg);
+}
+
+.rotate{
+transform: rotate(360deg);
+}
+
+.userDiv{
+	width: 40%;
+	text-align: center;
+	margin-left: 5%;
+	margin-top: 5%;
+	margin-bottom: 5%;
+	float: left;
+	background: white;
+	border: 5px solid black;
+	height: auto;
+	
+}
+.userDivG{
+	width: 40%;
+	text-align: center;
+	margin-left: 5%;
+	margin-top: 5%;
+	margin-bottom: 5%;
+	float: left;
+	background: white;
+	border: 5px solid lime;
+	height: auto;
+	
+}
+.userDivR{
+	width: 40%;
+	text-align: center;
+	margin-left: 5%;
+	margin-top: 5%;
+	margin-bottom: 5%;
+	float: left;
+	background: white;
+	border: 5px solid gray;
+	height: auto;
+	
+}
+.twolittlebuttons{
+	background-color: #FFFFFF;
+	color:red;
+	font-family: "Saira Extra Condensed", sans-serif;
+	font-size: 3vw;
+	border-radius: 0px;
+	font-weight: bold;
+	width: 30%;
+	text-align: center;
+	margin-left:10%;
+	margin-right:10%;
+	border: 5px solid black;
+	float:left;
+	margin-top: 5%;
+}
+
+.gameRoomIframe{
+	width: 70%;
+	height: 300px;
+	margin-left: 15%;
+	margin-right: 10%;
+	margin-bottom: 5%;
+}
+
+#blank{
+	height: 300px;
+	width: 70%;
+	margin-bottom: 5%;
+}
+
+.green{
+	color: lime;
+}
+
+.red{
+	color:red;
+}
+
+.hidden{
+	display: none;
+}
+
+.dislike{
+	transition: 1s;
+}
+.like{
+	transition: 1s;
+}
+
+.title-grid-container{
+	display: grid;
+	grid-template-columns: 20% auto 25%;
+	grid-template-rows: auto;
+	margin-left:5%;
+}
+
+.title-grid-item{
+	font-weight: 900;
+	font-size: 4em;
+	color: black;
+	text-align:center;
+	font-family: "Saira Extra Condensed", sans-serif;
+}
+
+a:hover {
+    color: white;
+}

@@ -1,0 +1,66 @@
+<% include partials/header %>
+
+<div id="navbuttons">
+  <a class="nav-button btn btn-danger btn-lg" href="/archive/all/">View all Videos!</a></a>
+  <a class="nav-button btn btn-danger btn-lg" href="/archive/submit/" id="create">Submit to the Archive!</a>
+  <a class="nav-button btn btn-danger btn-lg" href="/archive/rooms/" id="create">View all Rooms!</a>
+</div>
+
+<h1 class="centeredHeader">The Archive<i style="font-size:20px; margin-left: 1%;" class="fa fa-download" aria-hidden="true"></i></h1>
+
+<% videos.forEach(function(video){%>
+    <div class="col-lg-1 col-md-2 col-sm-4 <%=video._id%>" id="iframediv">
+        <iframe type="text/html" width="360" height="250" src="<%=video.link%>" frameborder="0" allowfullscreen align="left"></iframe>
+        <div class="caption">
+                <i data-val="<%=video._id%>" class="deleter fa fa-trash-o" aria-hidden="true"></i>
+        </div>
+        
+    </div>
+<% }); %>
+
+
+<script>
+
+$(".fa-trash-o").click(function(){
+       var trashBucket = $(this).data("val");
+       
+        $.delete("/archive/:id", {videoid: trashBucket});
+       
+       $("." + trashBucket).fadeOut(function(){
+           $("." + trashBucket).remove();
+           location.reload();
+       });
+       
+});
+
+$(".fa-download").click(function(){
+    var list = [];
+    $( "iframe" ).each(function() {
+      list.push("\r" + $(this).attr("src"));
+        });
+    var wnd = window.open("about:blank", "", "width=400,height=650,_blank");
+    wnd.document.write(list);
+});
+
+jQuery.each( [ "put", "delete" ], function( i, method ) {
+  jQuery[ method ] = function( url, data, callback, type ) {
+    if ( jQuery.isFunction( data ) ) {
+      type = type || callback;
+      callback = data;
+      data = undefined;
+    }
+ 
+    return jQuery.ajax({
+      url: url,
+      type: method,
+      dataType: type,
+      data: data,
+      success: callback
+    });
+  };
+});
+</script>
+
+
+
+<% include partials/footer %>

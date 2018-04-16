@@ -1,0 +1,25 @@
+<% include partials/header %>
+
+<div id="navbuttons">
+  <a class="nav-button-1 btn btn-danger btn-lg" href="/archive/">Back to the Archive!</a>
+</div>
+
+
+<div class="container">
+    <h1 class="centeredHeader">Previous Game Archive:</h1>
+    <% var ids = [], names = [];%>
+<% videos.forEach(function(video){%> 
+
+<% if(video.roomid.indexOf("停") > -1 && names.indexOf(video.gameName) === -1 && video.gameName !== undefined){ %>
+<%names.push(video.gameName); %>
+<%ids.push(video.roomid); } %>
+<% }); %>
+<%for(var n = 0; n<ids.length; n++){%>
+<div class="archiveRoomGroup container">
+<%var buttonLink = "/rooms/" + ids[n];%>
+<h3 class="leftHeader"><%=names[n]%><a class="btn btn-danger btn-lg" href="<%=buttonLink%>" style="text-align:left; margin-left:2%;" id="create">Join This Room</a></h3>
+</div>
+<% }%>
+
+
+<% include partials/footer %>

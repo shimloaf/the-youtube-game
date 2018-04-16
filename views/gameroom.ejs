@@ -1,0 +1,26 @@
+<% include partials/header %>
+
+		<h3 class="centeredHeader" style="color:red; margin:0; background:white; border:5px solid white;"><%=message%></h3>
+<div id="navbuttons">
+  <a class="nav-button btn btn-danger btn-lg" href="/game/new">Create a new Game!</a>
+  <a class="nav-button btn btn-danger btn-lg" href="/game" id="create">Join a Game!</a>
+  <% if(!currentUser){ %>
+    <a class="nav-button btn btn-danger btn-lg" href="/login" id="create">Log in!</a>
+    <% }else{ %>
+    <a class="nav-button btn btn-danger btn-lg" href="/profile" id="create"><%=currentUser.username%></a>
+  <% }%>
+</div>
+
+<div style="height: 500px">
+	<img id = "instruct" src="/instructions.png">
+</div>
+<script>
+    
+    $("#instruct").click(function(){
+            $("#instruct").toggleClass("rotate");
+    });
+    
+</script>
+
+
+<% include partials/footer %>

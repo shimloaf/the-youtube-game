@@ -1,0 +1,31 @@
+<% include partials/header %>
+
+<div id="navbuttons">
+  <a class="nav-button-1 btn btn-danger btn-lg" href="/archive/">Back to the Archive!</a></a>
+</div>
+
+
+
+<div class="container">
+    <div class="row">
+            <div style="width: 100%; margin: 25px auto;">
+                <h1 style="text-align: center;">Submit a video to the Archive:</h1>
+                <form method="POST" action="/archive">
+                    <div class="form-group">
+                        <input id="roomidinput" class="form-control" type="text" name="link" placeholder="Video URL">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="hidden" name="roomidvar" value="archive">
+                    </div>
+                    <div class="form-group">
+                        <input id="roomidinput" type="submit" class="submit-button btn btn-danger btn-block">
+                    </div>
+                </form>
+            </div>
+    </div>
+</div>
+
+
+<% include partials/footer %>
+
+

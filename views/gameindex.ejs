@@ -1,0 +1,32 @@
+<% include partials/header %>
+
+		<h3 class="centeredHeader" style="color:red; margin:0; background:white; border:5px solid white;"><%=message%></h3>
+<div id="navbuttons">
+  <a class="nav-button-1 btn btn-danger btn-lg" href="/game/menu">Back to the Game Menu!</a>
+</div>
+
+
+<div class="container">
+    <h1 class="centeredHeader">Game List:</h1>
+    <div class="gamesList">
+    <% games.forEach(function(game){%>
+        <div class="<%=game.gameid%>" id="gSubmitDiv">
+            
+            <form method="POST" action="/game/">
+                <div class="form-group">
+                    <h3 class="roomLabel"><%=game.name%>:</h3>
+                    <input name="password" class="roomPass" type="text">            
+                </div>
+                <div class="form-group">
+                    <input name="gameId" class="roomPass" type="hidden" value="<%=game.name%>">            
+                </div>
+                <button type="submit" class="btn btn-danger submit-button roomButtonSubmit">Join</button>
+            </form>
+        </div>
+    <% }); %>
+    </div>
+</div>
+
+
+
+<% include partials/footer %>

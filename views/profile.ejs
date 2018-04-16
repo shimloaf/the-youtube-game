@@ -1,0 +1,80 @@
+<% include partials/header %>
+
+		<h3 class="centeredHeader" style="color:red; margin:0; background:white; border:5px solid white;"><%=success%></h3>
+		<h3 class="centeredHeader" style="color:red; margin:0; background:white; border:5px solid white;"><%=message%></h3>
+<div id="navbuttons">
+  <a class="nav-button-1 btn btn-danger btn-lg" style="width:80%;" href="/game/menu/">Back to the Game Menu!</a>
+  <a class="nav-button-1 btn btn-danger btn-lg" style="width:20%;" href="/logout">Log Out!</a>
+</div>
+
+<div class="container">
+
+            <div class="stuff" style="float:left;">
+                <h1 class="leftHeader"><%=user%>'s Profile</h1>
+                <button target="_blank" class="delbut submit-button btn btn-danger" style="font-size:2em;">Delete Account</button>
+            </div>
+
+
+<%if(videos.length > 0){%>
+<div class="container videos2">
+<h1 class="centeredHeader"></h1>
+
+<% videos.forEach(function(video){%>
+<%if(video.gameName === undefined){%>
+    <div class="<%=video.videoid%>" id="iframediv2">
+        <iframe type="text/html" width="400" height="200" src="<%=video.link%>" frameborder="0" allowfullscreen align="left"></iframe>
+        <div class="caption">
+            <%var buttonLink = "/rooms/" + video.roomid;%>
+            <a class="btn btn-danger btn-lg" href="<%=buttonLink%>" style="font-size:1em; text-align:center; margin-left:2%; margin-bottom:5%" id="create"><%=video.roomid %></a>
+
+        </div>
+        
+    </div>
+<% } else{ %>
+    <div class="<%=video.videoid%>" id="iframediv2">
+        <iframe type="text/html" width="400" height="200" src="<%=video.link%>" frameborder="0" allowfullscreen align="left"></iframe>
+        <div class="caption">
+            <%var buttonLink = "/rooms/" + video.roomid;%>
+            <a class="btn btn-danger btn-lg" href="<%=buttonLink%>" style="text-align:center; margin-left:2%; margin-bottom:5%" id="create"><%=video.gameName%></a>
+
+        </div>
+    
+    </div>
+<% } }); %>
+</div>
+
+<% }%>
+</div>
+<% include partials/footer %>
+
+<script>
+    
+   $(".delbut").click(function(){
+       var r = confirm("Are you sure you want to delete your account?")
+           if(r){
+               $.delete("/profile");
+                 window.location.href = "/game/menu";
+        
+               
+           }
+   });
+
+jQuery.each( [ "put", "delete" ], function( i, method ) {
+  jQuery[ method ] = function( url, data, callback, type ) {
+    if ( jQuery.isFunction( data ) ) {
+      type = type || callback;
+      callback = data;
+      data = undefined;
+    }
+ 
+    return jQuery.ajax({
+      url: url,
+      type: method,
+      dataType: type,
+      data: data,
+      success: callback
+    });
+  };
+});
+    
+</script>

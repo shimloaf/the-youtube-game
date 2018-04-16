@@ -1,0 +1,23 @@
+<% include partials/header %>
+
+<div id="navbuttons">
+  <a class="nav-button btn btn-danger btn-lg" href="/rooms/">Join a Room!</a>
+  <a class="nav-button btn btn-danger btn-lg" href="/archive" id="create">View the Archive!</a>
+  <a class="nav-button btn btn-danger btn-lg" href="/game/menu/" id="create">Games Menu!</a>
+</div>
+
+<h4 class="latest">Latest Videos:</h4>
+    <% var vidAmount = 0, n = 1;%>
+    <% while((vidAmount < 4) && (n < videos.length)){ %>
+    <% if(videos[videos.length-n] !== undefined && videos[videos.length-n].roomid !== "archive"){ %>
+        <div class="slideshowitem">
+            <div id="iframediv">
+                <iframe type="text/html" width="400" height="200" src="<%=videos[videos.length-n].link%>" frameborder="0" allowfullscreen align="center"></iframe>
+                <% vidAmount = vidAmount + 1; %>
+            </div>
+        </div>
+    <% } n+=1; } %>
+
+<% include partials/footer %>
+
+

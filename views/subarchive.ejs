@@ -1,0 +1,56 @@
+<% include partials/header %>
+
+<div id="navbuttons">
+    <%if(roomDis === true){ %>
+  <a class="nav-button-1 btn btn-danger btn-lg" style="width:90%;"href="/archive/game">Game Room Archives!</a></a>
+  <a class="nav-button-1 btn btn-danger btn-lg" style="width:10%;" href="/archive/">Exit</a>
+    <% } else {%>
+          <a class="nav-button-1 btn btn-danger btn-lg" style="width:100%;"href="/archive">Back to the Archive!</a></a>
+    <% }%>
+</div>
+
+
+
+<%if(roomDis===true){%>
+<h1 class="centeredHeader">All Rooms</h1>
+<% var ids = []%>
+<% videos.forEach(function(video){%> 
+
+<!--\/ add all room ids to the array-->
+<% if(ids.indexOf(video.roomid) === -1 && video.roomid !== "archive" && video.roomid.indexOf("停") === -1){ %>
+<%ids.push(video.roomid); }%>
+<% }); %>
+<!--All ids are in ids array now-->
+
+<%for(var n = 0; n<ids.length; n++){%>
+<div class="archiveRoomGroup container">
+<%var buttonLink = "/rooms/" + ids[n]%>
+<h3 class="leftHeader"><%=ids[n] %><a class="btn btn-danger btn-lg" href="<%=buttonLink%>" style="text-align:left; margin-left:2%;" id="create">Join This Room</a></h3>
+
+
+
+<% videos.forEach(function(video){%>
+<% if(video.roomid === ids[n]){ %>
+    <div class="col-lg-1 col-md-2 col-sm-4" id="iframediv">
+        <iframe type="text/html" width="360" height="250" src="<%=video.link%>" frameborder="0" allowfullscreen align="left"></iframe>
+    </div>
+    <% }%>
+<% }); %>
+</div>
+
+<% } %>
+
+<% } %>
+
+<%if(roomDis===false){%>
+<h1 class="centeredHeader">All Videos</h1>
+<% videos.forEach(function(video){%>
+<% if(video.roomid !== "archive"){ %>
+    <div class="col-lg-1 col-md-2 col-sm-4" id="iframediv">
+        <iframe type="text/html" width="360" height="250" src="<%=video.link%>" frameborder="0" allowfullscreen align="left"></iframe>
+    </div>
+<% } %>
+<% }); %>
+<% } %>
+
+<% include partials/footer %>

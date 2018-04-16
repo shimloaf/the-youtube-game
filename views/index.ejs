@@ -1,0 +1,216 @@
+<% include partials/header %>
+
+<script>var Clippy = new Clipboard('#rand2');</script>
+
+<div id="navbuttons">
+    <%if(roomidvar.substring(0,1) !== "停"){%>
+        <a id="rand" class="nav-button-1 btn btn-danger btn-lg">Generate a prompt!</a>
+        <a id="rand2" class="nav-button-2-1 btn btn-danger btn-lg" data-clipboard-text="">Copy</a>
+    <% } else{ %>
+        <a id="<%=roomidvar%>" class="delG nav-button-1 btn btn-danger btn-lg"style="width:90%;">Delete this archive?</a>
+        <a class="nav-button-2-1 btn btn-danger btn-lg" style="display:block;" href="/archive/game">Exit!</a>
+    <% }%>
+</div>
+
+<%if(roomidvar.substring(0,1) !== "停"){%>
+<div class="container">
+
+            <div class="submit">
+                <h1 class="centeredHeader">Submit a video to this room:</h1>
+                <form method="POST" action="/rooms/:id">
+                    <div class="form-group">
+                        <input id="roomidinput" class="form-control" type="text" name="link" placeholder="Video URL">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="hidden" name="roomidvar" value="<%=roomidvar%>">
+                    </div>
+                    <% if(currentUser){ %>
+                    <div class="form-group">
+                        <input class="form-control" type="hidden" name="playerid" value=<%=currentUser._id%>>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="hidden" name="username" value=<%=currentUser.username%>>
+                    </div>
+                    <% }%>
+                    <div class="form-group">
+                        <input class="form-control" type="hidden" name="remove" value="create">
+                    </div>
+                    <div class="form-group">
+                        <input id="roomidinput" type="submit" text="Submit" class="submit-button btn btn-danger btn-block">
+                    </div>
+                </form>
+            </div>
+
+            <div class="info">
+                <div>
+                <a href="https://www.youtube.com" target="_blank" class="nav-button-1 btn btn-danger btn-lg">Youtube</a>
+                
+                <div class="btn-group-vertical" data-toggle="buttons" style="width:100%">
+                    
+                    <label class="nav-button-1 btn btn-danger btn-lg active" id="radio1-l" style="border-radius:0px; width: 100%; transition: .5s;">
+                        <input type="radio" name="radioGroup" id="radio1" value="option1" data-toggle="button" checked> Simple
+                    </label>
+                    <label class="nav-button-1 btn btn-danger btn-lg" id="radio2-l" style="border-radius:0px; width: 100%; transition: .5s;">
+                      <input type="radio" name="radioGroup" id="radio2" value="option2" data-toggle="button"> Complex
+                    </label>
+                  
+                </div>
+                </div>
+            </div>
+</div>
+<% }%>
+<div class="container videos" style="margin-bottom:5%;">
+<h1 class="centeredHeader">List of Videos:</h1>
+
+<% videos.forEach(function(video){%>
+    <div class="<%=video._id%>" id="iframediv">
+        <iframe type="text/html" width="400" height="200" src="<%=video.link%>" frameborder="0" allowfullscreen align="left"></iframe>
+        <div class="caption">
+            <h4>
+                <%if(video.playerid){ %>
+                <%=video.username%>'s Video
+                <% }%>
+                <i id="<%=video._id%>" class="deleter fa fa-trash-o" aria-hidden="true"></i>
+                <%if(arcList.indexOf(video.link) === -1){ %>
+                <i id="<%=video.link%>" class="fa fa-plus-square-o" aria-hidden="true"></i>
+                <% }%>
+            </h4>
+        </div>
+        
+    </div>
+<% }); %>
+</div>
+            
+<script>
+
+var wordType = 0;
+
+
+$("#rand").click(function(){
+    getWordCombo(wordType);
+    $("#rand").delay("500").css("width", "90%");
+    $("#rand2").delay("1000").fadeIn();
+});
+
+$("#rand2").click(function(){
+    var word = $("#rand").text();
+   $("#rand2").attr("data-clipboard-text", word); 
+});
+
+$("#radio2").click(function(){
+    wordType=1;
+    $("#radio2-l").toggleClass("active", true);
+    $("#radio1-l").toggleClass("active", false);
+});
+
+$("#radio1").click(function(){
+    wordType = 0;
+    $("#radio2-l").toggleClass("active", false);
+    $("#radio1-l").toggleClass("active", true);
+});
+
+$(".fa-plus-square-o").click(function(){
+    this.remove();
+        var addButt = $(this).attr("id");
+        $.post("/archive", {link: addButt}, function(){
+            location.reload();
+        });
+        
+}); 
+
+$(".fa-trash-o").click(function(){
+   var trashBucket = $(this).attr("id");
+   $.delete("/rooms/:id", {videoid: trashBucket});
+   
+   $("." + trashBucket).fadeOut(function(){
+       $("." + trashBucket).remove();
+       location.reload();
+   });
+   
+});
+
+$(".delG").click(function(){
+    var trashBucket = $(this).attr("id");
+   $.delete("/rooms/:id", {videoid: trashBucket});
+   window.location.href = "/archive/game";
+       
+});
+
+
+function getWordCombo(wype){
+
+var combo = "";
+var wordType = wype;
+if(wordType === 0){
+    $.get('/simpleNouns.txt', function(data) {
+       var line = Math.round(Math.random()*4554);
+       for(var n = 0; n< line; n++)
+       {
+           data=data.substring(0,data.lastIndexOf(","))
+       }
+       noun = data.substring(data.lastIndexOf(",")+1);
+       
+           $.get('/simpleAdj.txt', function(data2) {
+           var line2 = Math.round(Math.random()*1466);
+           for(var g = 0; g< line2; g++)
+           {
+               data2=data2.substring(0,data2.lastIndexOf(","))
+           }
+           adjective = data2.substring(data2.lastIndexOf(",")+1);
+           
+           combo = adjective.substring(1) + " " + noun.substring(1);
+            $("#rand").text(combo);
+        }, 'text');    
+    }, 'text');    
+           
+        
+    }
+else{
+    $.get('/nouns.txt', function(data) {
+       var line = Math.round(Math.random()*90946);
+       for(var n = 0; n< line; n++)
+       {
+           data=data.substring(0,data.lastIndexOf(","))
+       }
+       noun = data.substring(data.lastIndexOf(",")+1);
+       
+           $.get('/adjectives.txt', function(data2) {
+           var line2 = Math.round(Math.random()*28479);
+           for(var g = 0; g< line2; g++)
+           {
+               data2=data2.substring(0,data2.lastIndexOf(","))
+           }
+           adjective = data2.substring(data2.lastIndexOf(",")+1);
+           
+           combo = adjective.substring(1) + " " + noun.substring(1);
+            $("#rand").text(combo);
+        }, 'text');    
+    }, 'text');    
+          
+}
+}
+    
+jQuery.each( [ "put", "delete" ], function( i, method ) {
+  jQuery[ method ] = function( url, data, callback, type ) {
+    if ( jQuery.isFunction( data ) ) {
+      type = type || callback;
+      callback = data;
+      data = undefined;
+    }
+ 
+    return jQuery.ajax({
+      url: url,
+      type: method,
+      dataType: type,
+      data: data,
+      success: callback
+    });
+  };
+});
+    
+</script>
+
+            
+<% include partials/footer %>
+
+

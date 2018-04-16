@@ -1,0 +1,86 @@
+<% include partials/header %>
+<%var n = 0%>
+
+<div id="navbuttons">
+  <a class="nav-button-1 btn btn-danger btn-lg LOCKE">Lock in Votes!</a>
+</div>
+<span class="STOPLOOKINGATMYCODE" id="<%=currentUser._id%>|<%=games._id%>%<%=games.name%>"></span>
+<%games.roomUsers.forEach(function(user){ %>
+<% n++;%>
+<div class="userDiv">
+
+    <h1 style="font-size: 5vw; overflow:hidden;"><%=user.username%><span id="<%=user.id + 3%>">: 0</span></h1>
+    <h3 class="centeredHeader">Official Video:</h3>
+    <iframe type="text/html" class="gameRoomIframe" src="<%=user.off%>" frameborder="0" allowfullscreen align="left"></iframe>
+    <h1 style="text-align:center;">
+    <i style="font-size:100%;" class="fa fa-thumbs-up like" id=<%=n%>|<%=user.id%>></i>
+    <i style="font-size:100%;" class="fa fa-thumbs-down dislike rotate3" id=<%=n%>|<%=user.id%>></i>
+    </h1>
+    
+    
+</div>
+
+<% });%>
+
+<span class="icanfixthis" id="<%=n%>"></span>
+
+
+    <script>
+    
+    var votes = parseInt($(".icanfixthis").attr("id"));
+    var users = [0,0,0,0,0,0];
+    
+    
+    $(".like").click(function(){
+        var num = $(this).attr("id").substring(0,1);
+        num = parseInt(num) -1;
+        if(users[num] < 0){
+            votes++;
+            users[num] = users[num] + 1;
+            $(this).toggleClass("rotate3");
+        }
+        else if(votes>0){
+            votes--;
+            users[num] = users[num] + 1;
+            $(this).toggleClass("rotate3");
+        }
+        $("#" + $(this).attr("id").substring($(this).attr("id").indexOf("|") +1) + "3").text(": " + users[num]);
+    });
+    
+    $(".dislike").click(function(){
+        
+        var num = $(this).attr("id");
+        num = parseInt(num) -1;
+        if(users[num] > 0){
+            votes++;
+            users[num] = users[num] -1;
+            $(this).toggleClass("rotate3");
+        }
+        else if(votes > 0){
+            votes--;
+            users[num] = users[num] - 1;
+            $(this).toggleClass("rotate3");
+        }
+        $("#" + $(this).attr("id").substring($(this).attr("id").indexOf("|") +1) + "3").text(": " + users[num]);
+    });
+    
+    $(".LOCKE").click(function(){
+        if(votes>0){
+            $(".LOCKE").text(votes+ "/2 votes remaining");
+        }
+        else{
+            var compStr = $(".STOPLOOKINGATMYCODE").attr("id");
+                compStr = compStr + "";
+            var userId = compStr.substring(0, compStr.indexOf("|"));
+            var gameId = compStr.substring(compStr.indexOf("|") + 1, compStr.indexOf("%"));
+            var gameName = compStr.substring(compStr.indexOf("%") + 1);;
+           $.post("/game/:id", { gameId: gameId, userId: userId, name: gameName, votedata: users, offUnOff: "voted" }, function(){
+               window.location="/game/" + gameId;
+           });
+        }
+    });
+    
+    </script>
+
+
+<% include partials/footer %>

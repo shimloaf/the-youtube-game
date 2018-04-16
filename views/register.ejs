@@ -1,0 +1,33 @@
+<% include partials/header %>
+
+		<h3 class="centeredHeader" style="color:red; margin:0; background:white; border:5px solid white;"><%=message%></h3>
+<div id="navbuttons">
+  <a class="nav-button-1 btn btn-danger btn-lg" href="/game/menu/">Back to the Game Menu!</a>
+</div>
+
+
+<h1 class="centeredHeader">Sign Up Form</h1>
+
+<!--if(exError === "yes"){%> -->
+<!--<h1>YIKES, that username is taken!!!</h1>-->
+<!-- } %>-->
+
+<form action="/register" method="POST">
+    
+    <div style="margin-left:25%; width:50%; text-align: center;" class="form-group">
+        <label>Username:</label>
+        <input type="text" name="username" placeholder="username">
+    </div>
+    
+    <div style="margin-left:25%; width:50%; text-align: center;" class="form-group">
+        <label>Password:</label>
+        <input type="password" name="password" placeholder="password">
+    </div>
+    
+    <div style="width: 33.33%; text-align:center; margin-left:33.33%" class="form-group">
+        <input type="submit" class="submit-button btn btn-danger btn-block">
+    </div>
+    
+</form>
+
+<% include partials/footer %>
